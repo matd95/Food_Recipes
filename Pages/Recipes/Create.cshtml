@@ -1,0 +1,67 @@
+﻿@page
+@model Food_Recipes.Pages.Recipes.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Recipe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Recipe.Title" class="control-label">Recipe Name</label>
+                <input asp-for="Recipe.Title" class="form-control" />
+                <span asp-validation-for="Recipe.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.CategoryID" class="control-label">Category</label>
+                <select asp-for="Recipe.CategoryID" class="form-control" asp-items="ViewBag.CategoryID">
+                </select>
+                <span asp-validation-for="Recipe.CategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recipe.RecipeIngredients" class="control-label">Ingredients</label>
+<div class="table">
+<table>
+<tr>
+@{
+int cnt = 0;
+foreach (var ing in Model.AssignedIngredientDataList)
+{
+if (cnt++ % 3 == 0)
+{
+@:</tr><tr>
+}
+@:<td>
+<input type="checkbox"
+name="selectedIngredients"
+value="@ing.IngredientID"
+@(Html.Raw(ing.Assigned ?
+"checked=\"checked\"" : "")) />
+@ing.Name
+@:</td>
+}
+@:</tr>
+}
+</table>
+</div>
+</div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
