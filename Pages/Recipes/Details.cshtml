@@ -21,7 +21,43 @@
             @Html.DisplayNameFor(model => model.Recipe.Category)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Recipe.Category)
+            @Html.DisplayFor(model => model.Recipe.Category.CategoryName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe.RecipeIngredients)
+        </dt>
+        <dd class="col-sm-10">
+            <div class="table">
+<table>
+<tr>
+@{
+int cnt = 0;
+foreach (var ing in Model.AssignedIngredientDataList)
+{
+if (cnt++ % 3 == 0)
+{
+@:</tr><tr>
+}
+
+                                if(ing.Assigned)
+                                {
+                                    @:<td>&#10004;
+                                    @ing.Name
+                                    @:</td>
+                                }
+                                
+
+}
+@:</tr>
+}
+</table>
+</div>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe.Instructions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe.Instructions)
         </dd>
     </dl>
 </div>

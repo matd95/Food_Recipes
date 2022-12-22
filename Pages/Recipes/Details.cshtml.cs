@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Food_Recipes.Data;
 using Food_Recipes.Models;
+using System.Net;
 
 namespace Food_Recipes.Pages.Recipes
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : RecipeIngredientsPageModel
     {
         private readonly Food_Recipes.Data.Food_RecipesContext _context;
 
@@ -20,6 +21,7 @@ namespace Food_Recipes.Pages.Recipes
         }
 
       public Recipe Recipe { get; set; }
+ 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,15 +30,18 @@ namespace Food_Recipes.Pages.Recipes
                 return NotFound();
             }
 
-            var recipe = await _context.Recipe.FirstOrDefaultAsync(m => m.ID == id);
+
+            var recipe = await _context.Recipe
+.Include(b => b.Category)
+.Include(b => b.RecipeIngredients).ThenInclude(b => b.Ingredient)
+.AsNoTracking()
+.FirstOrDefaultAsync(m => m.ID == id);
             if (recipe == null)
             {
                 return NotFound();
             }
-            else 
-            {
-                Recipe = recipe;
-            }
+            Recipe = recipe;
+            PopulateAssignedIngredientData(_context, Recipe);
             return Page();
         }
     }

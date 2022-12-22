@@ -24,15 +24,15 @@
     <thead>
         <tr>
             <th>
-                Recipe Name
+                @Html.DisplayNameFor(model => model.Recipe[0].Title)
             </th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.CategorySort">
-                Category
+                    @Html.DisplayNameFor(model => model.Recipe[0].Category)
                 </a>
             </th>
             <th>
-                Ingredients
+                @Html.DisplayNameFor(model => model.Recipe[0].RecipeIngredients)
             </th>
             <th></th>
         </tr>
@@ -60,6 +60,7 @@
                     }
                 </td>
             <td>
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
             </td>
